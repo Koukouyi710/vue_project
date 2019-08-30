@@ -178,6 +178,22 @@
               console.log(error)
             })
         },
+        updateCart:function (product) {
+          var _vue=this
+          this.service.post("/cart/update.do",{
+            productId:product.productId,
+            count:product.quantity
+          })
+            .then(function (response) {
+              console.log(response)
+              console.log(response.status)
+              console.log(response.data.status)
+              console.log(response.data.data)
+            })
+            .catch(function (error) {
+              console.log(error)
+            })
+        },
         changeNum:function (product,flag) {
           if (flag>0&&product.quantity<=product.productStock){
             product.quantity++
@@ -185,6 +201,7 @@
           if (flag<0&&product.quantity>1) {
             product.quantity--
           }
+          this.updateCart(product)
         },
         checkProduct:function (product) {
           product.productChecked=!product.productChecked

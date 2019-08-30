@@ -10,6 +10,9 @@ import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 import { Tabbar, TabItem } from 'mint-ui';
 import { Button } from 'mint-ui';
+import './assets/css/reset.css'
+import './assets/css/border.css'
+import fastClick from 'fastClick'
 
 var service=axios.create({
   baseURL:"http://localhost:8888",
@@ -25,7 +28,7 @@ var service=axios.create({
     }
   ]
 })
-
+fastClick.attach(document.body)
 Vue.config.productionTip = false;
 Vue.prototype.service = service;
 Vue.use(Vuex);
