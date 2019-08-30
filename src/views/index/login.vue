@@ -8,7 +8,7 @@
     <br><br>
     <span @click="Login"><submit-button value="登录"></submit-button></span>
     <!--<p>用户名：{{username}} 密码:{{password}}</p>-->
-    <p>{{massage}}</p>
+    <!--<p>{{massage}}</p>-->
   </div>
 </template>
 
@@ -16,6 +16,7 @@
   import InputBox from '../../components/InputBox'
   import PassWordBox from '../../components/PassWordBox'
   import SubmitButton from '../../components/SubmitButton'
+  import { Toast } from 'mint-ui';
     export default {
       name: "login",
       data(){
@@ -55,6 +56,7 @@
                //sessionStorage.setItem("useInfo",response.data.data)
               if (response.data.status!=0){
                 _vue.massage=response.data.msg
+                Toast(_vue.massage);
               }
               if (response.data.status==0){
                 _vue.massage="登录成功"

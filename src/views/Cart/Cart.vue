@@ -45,43 +45,43 @@
                   </ul>
                 </div>
                 <ul class="cart-item-list">
-                  <li>
+                  <li v-for="(item,index) of productList" :key="index">
                     <div class="cart-tab-1">
                       <div class="cart-item-check">
-                        <a href="javascript:void 0" class="item-check-btn">
+                        <a href="javascript:void 0" class="item-check-btn" v-bind:class="{'check':item.productChecked}" @click="checkProduct(item)">
                           <svg class="icon icon-ok"><use xlink:href="#icon-ok"></use></svg>
                         </a>
                       </div>
                       <div class="cart-item-pic">
-                        <img src="img/goods-1.jpg" alt="烟">
+                        <img :src="'http://img.cdn.imbession.top/'+item.productMainImage" alt="商品主图">
                       </div>
                       <div class="cart-item-title">
-                        <div class="item-name">黄鹤楼香烟</div>
+                        <div class="item-name">{{item.productName}}</div>
                       </div>
                       <div class="item-include">
                         <dl>
-                          <dt>赠送:</dt>
-                          <dd>打火机</dd>
+                          <dt>运费:</dt>
+                          <dd>免运费</dd>
                         </dl>
                       </div>
                     </div>
                     <div class="cart-tab-2">
-                      <div class="item-price"></div>
+                      <div class="item-price">{{item.productPrice|filterMoney}}</div>
                     </div>
                     <div class="cart-tab-3">
                       <div class="item-quantity">
                         <div class="select-self select-self-open">
                           <div class="quantity">
-                            <a href="javascript:void 0"></a>
-                            <input type="text" value="0" disabled>
-                            <a href="javascript:void 0"></a>
+                            <a href="javascript:void 0" @click="changeNum(item,-1)">-</a>
+                            <input type="text" v-model="item.quantity" disabled>
+                            <a href="javascript:void 0" @click="changeNum(item,1)">+</a>
                           </div>
                         </div>
-                        <div class="item-stock">有货</div>
+                        <div class="item-stock">库存:{{item.productStock}}</div>
                       </div>
                     </div>
                     <div class="cart-tab-4">
-                      <div class="item-price-total">0.00</div>
+                      <div class="item-price-total">{{item.productPrice*item.quantity|filterMoney}}</div>
                     </div>
                     <div class="cart-tab-5">
                       <div class="cart-item-operation">
@@ -100,31 +100,31 @@
               <div class="cart-foot-l">
                 <div class="item-all-check">
                   <a href="javascript:void 0">
-                    <span class="item-check-btn" >
+                    <span class="item-check-btn" v-bind:class="{'check':this.isallchecked}" @click="checkAll()">
                       <svg class="icon icon-ok"><use xlink:href="#icon-ok"></use></svg>
                     </span>
-                    <span>全选</span>
+                    <span>{{isallmsg}}</span>
                   </a>
                 </div>
-                <div class="item-all-del">
+               <!-- <div class="item-all-del">
                   <a href="javascript:void 0" class="item-del-btn">
                     <span>取消全选</span>
                   </a>
-                </div>
+                </div>-->
               </div>
               <div class="cart-foot-r">
                 <div class="item-total">
-                  Item total: <span class="total-price"></span>
+                  总金额: <span class="total-price" v-model="totlePrice">{{totlePrice|filterMoney}}</span>
                 </div>
                 <div class="next-btn-wrap">
-                  <a href="javascrit:;" class="btn btn--red" style="width: 200px">结账</a>
+                  <a href="javascrit:;" class="btn btn--red" style="width: 200px">提交订单</a>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="md-modal modal-msg md-modal-transition" id="showModal">
+        <div class="md-modal modal-msg md-modal-transition" id="showModal" hidden="hidden">
           <div class="md-modal-inner">
             <div class="md-top">
               <button class="md-close">关闭</button>
@@ -149,7 +149,9 @@
         name: "Cart",
         data(){
           return{
-            status:100
+            productList:[],
+            totlePrice:0,
+            isallmsg:"取消全选"
         }
       },
 
@@ -162,15 +164,63 @@
           var _vue=this
           this.service.get("/cart/list.do")
             .then(function (response) {
-              console.log(response)
               console.log(response.status)
               console.log(response.data.status)
-              _vue.status=response.data.status
+              console.log(response.data.data)
+              _vue.productList=response.data.data.cartProductVOList
+              _vue.totlePrice=response.data.data.carttotalprice
+              _vue.isallchecked=response.data.data.isallchecked
             })
             .catch(function (error) {
               console.log(error)
             })
+        },
+        changeNum:function (product,flag) {
+          if (flag>0&&product.quantity<=product.productStock){
+            product.quantity++
+          }
+          if (flag<0&&product.quantity>1) {
+            product.quantity--
+          }
+        },
+        checkProduct:function (product) {
+          product.productChecked=!product.productChecked
+          var flag=0
+          this.productList.forEach(function (product,index) {
+            if (product.productChecked==true) {
+              flag++
+            }
+          })
+          if(flag<this.productList.length){
+            this.isallchecked=false
+            this.isallmsg="全选"
+          }
+          else{
+            this.isallchecked=true
+            this.isallmsg="取消全选"
+          }
+        },
+        checkAll:function () {
+          if (this.isallchecked==true){
+            this.isallchecked=false
+            this.isallmsg="全选"
+            this.productList.forEach(function (product,index) {
+              product.productChecked=false
+            })
+          }
+          else {
+            this.isallchecked=true
+            this.isallmsg="取消全选"
+            this.productList.forEach(function (product,index) {
+              product.productChecked=true
+            })
+          }
         }
+      },
+      filters:{
+          filterMoney:function (value) {
+            return "￥"+value.toFixed(2);
+          }
       }
     }
 </script>
@@ -179,4 +229,10 @@
   @import "../../assets/css/base.css";
   @import "../../assets/css/checkout.css";
   @import "../../assets/css/reset.css";
+  .quantity input{
+    text-align: center;
+    width: 6rem;
+    background-color: white;
+    border: none
+  }
 </style>
