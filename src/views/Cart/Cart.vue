@@ -247,8 +247,8 @@
                   console.log(response.data.status)
                   console.log(json.data)
                   console.log('成功删除')
-                  /*_vue.reload()*/
-                  location.reload()
+                  _vue.reload()
+                  /*location.reload()*/
                 })
                 .catch(function (error) {
                   console.log(error)
