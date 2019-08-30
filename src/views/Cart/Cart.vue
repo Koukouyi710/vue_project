@@ -85,7 +85,7 @@
                     </div>
                     <div class="cart-tab-5">
                       <div class="cart-item-operation">
-                        <a href="javascript:void 0" class="item-edit-btn">
+                        <a href="javascript:void 0" class="item-edit-btn" @click="deleteProduct(item)">
                           <svg class="icon icon-del"><use xlink:href="#icon-del" ></use></svg>
                         </a>
                       </div>
@@ -100,7 +100,7 @@
               <div class="cart-foot-l">
                 <div class="item-all-check">
                   <a href="javascript:void 0">
-                    <span class="item-check-btn" v-bind:class="{'check':this.isallchecked}" @click="checkAll()">
+                    <span class="item-check-btn" v-bind:class="{'check':isallchecked}" @click="checkAll()">
                       <svg class="icon icon-ok"><use xlink:href="#icon-ok"></use></svg>
                     </span>
                     <span>{{isallmsg}}</span>
@@ -114,7 +114,7 @@
               </div>
               <div class="cart-foot-r">
                 <div class="item-total">
-                  总金额: <span class="total-price" v-model="totlePrice">{{totlePrice|filterMoney}}</span>
+                  总金额: <span class="total-price" v-model="totlePrice">{{updateTotalPrice()|filterMoney}}</span>
                 </div>
                 <div class="next-btn-wrap">
                   <a href="javascrit:;" class="btn btn--red" style="width: 200px">提交订单</a>
@@ -134,8 +134,8 @@
                 <p id="cusLanInfo">你确认删除此订单信息吗?</p>
               </div>
               <div class="btn-wrap col-2">
-                <button class="btn btn--m" id="btnModalConfirm">Yes</button>
                 <button class="btn btn--m btn--red" id="btnModalCancel">No</button>
+                <button class="btn btn--m" id="btnModalConfirm">Yes</button>
               </div>
             </div>
           </div>
@@ -145,7 +145,9 @@
 </template>
 
 <script>
+  import { MessageBox } from 'mint-ui'
     export default {
+        inject:['reload'],
         name: "Cart",
         data(){
           return{
@@ -164,6 +166,7 @@
           var _vue=this
           this.service.get("/cart/list.do")
             .then(function (response) {
+              console.log(response)
               console.log(response.status)
               console.log(response.data.status)
               console.log(response.data.data)
@@ -215,6 +218,45 @@
               product.productChecked=true
             })
           }
+        },
+        updateTotalPrice:function(){
+          var _vue=this
+          _vue.totlePrice=0
+          _vue.productList.forEach(function (product,index) {
+            if (product.productChecked==true){
+              _vue.totlePrice+=product.productPrice*product.quantity
+            }
+          })
+          return _vue.totlePrice
+        },
+        deleteProduct:function (product) {
+          var _vue=this
+          MessageBox({
+            title: '提示',
+            message: '你确认删除此订单信息吗?',
+            showCancelButton: true
+          }).then(action => {
+            if(action == 'confirm'){
+              this.service.post("/cart/delete_product.do",{
+                productIds:product.productId,
+              })
+                .then(function (response) {
+                  var json = response.data
+                  console.log(response)
+                  console.log(response.status)
+                  console.log(response.data.status)
+                  console.log(json.data)
+                  console.log('成功删除')
+                  /*_vue.reload()*/
+                  location.reload()
+                })
+                .catch(function (error) {
+                  console.log(error)
+                })
+            }else{
+              console.log('取消删除')
+            }
+          })
         }
       },
       filters:{
