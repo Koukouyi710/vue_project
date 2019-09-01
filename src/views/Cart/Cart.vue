@@ -1,5 +1,6 @@
 <!--购物车-->
 <template>
+  <div>
     <div class="checkout">
       <div id="app">
         <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -31,7 +32,6 @@
             <div class="checkout-title">
               <span>购物车</span>
             </div>
-
             <!-- table -->
             <div class="item-list-wrap">
               <div class="cart-item">
@@ -97,34 +97,31 @@
 
             <!-- footer -->
             <div class="cart-foot-wrap">
-              <div class="cart-foot-l">
-                <div class="item-all-check">
-                  <a href="javascript:void 0">
+              <div class="cart-foot-r">
+                <div class="next-btn-wrap" style="margin-bottom: 3rem;background-color:white;width: 100%">
+                  <div style="font-size: 1rem;padding-bottom: auto;background-color: white;">
+                    <div class="item-all-check" style="margin-left: 1rem">
+                      <a href="javascript:void 0">
                     <span class="item-check-btn" v-bind:class="{'check':isallchecked}" @click="checkAll()">
                       <svg class="icon icon-ok"><use xlink:href="#icon-ok"></use></svg>
                     </span>
-                    <span>{{isallmsg}}</span>
-                  </a>
-                </div>
-               <!-- <div class="item-all-del">
-                  <a href="javascript:void 0" class="item-del-btn">
-                    <span>取消全选</span>
-                  </a>
-                </div>-->
-              </div>
-              <div class="cart-foot-r">
-                <div class="item-total">
-                  总金额: <span class="total-price" v-model="totlePrice">{{updateTotalPrice()|filterMoney}}</span>
-                </div>
-                <div class="next-btn-wrap">
-                  <a href="javascrit:;" class="btn btn--red" style="width: 200px">提交订单</a>
+                        <span style="font-size: 0.8rem;margin-bottom: 0.02rem" @click="checkAll()">{{isallmsg}}</span>
+                      </a>
+                    </div>
+                    <!-- <div class="item-all-del">
+                       <a href="javascript:void 0" class="item-del-btn">
+                         <span>取消全选</span>
+                       </a>
+                     </div>-->
+                    <button href="javascrit:;" style="color: white;background-color: red;width: 7rem;float: right;margin-left: 1rem">提交订单</button>
+                    <span style="color: gray;font-size: 0.8rem;float: right">合计: <span class="total-price" v-model="totlePrice" style="color: red;font-size: 1rem">{{updateTotalPrice()|filterMoney}}</span></span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        <div class="md-modal modal-msg md-modal-transition" id="showModal" hidden="hidden">
+       <!-- <div class="md-modal modal-msg md-modal-transition" id="showModal" hidden="hidden">
           <div class="md-modal-inner">
             <div class="md-top">
               <button class="md-close">关闭</button>
@@ -134,20 +131,24 @@
                 <p id="cusLanInfo">你确认删除此订单信息吗?</p>
               </div>
               <div class="btn-wrap col-2">
-                <button class="btn btn--m btn--red" id="btnModalCancel">No</button>
-                <button class="btn btn--m" id="btnModalConfirm">Yes</button>
+                <button class="btn btn&#45;&#45;m btn&#45;&#45;red" id="btnModalCancel">No</button>
+                <button class="btn btn&#45;&#45;m" id="btnModalConfirm">Yes</button>
               </div>
             </div>
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
+    <tabbar></tabbar>
+  </div>
 </template>
 
 <script>
   import { MessageBox } from 'mint-ui'
+  import Tabbar from "../../components/Tabbar";
     export default {
-        inject:['reload'],
+      components: {Tabbar},
+      inject:['reload'],
         name: "Cart",
         data(){
           return{
@@ -284,13 +285,13 @@
     }
 </script>
 
-<style>
+<style scoped>
   @import "../../assets/css/base.css";
   @import "../../assets/css/checkout.css";
   @import "../../assets/css/reset.css";
   .quantity input{
     text-align: center;
-    width: 6rem;
+    width: 4rem;
     background-color: white;
     border: none
   }
