@@ -10,8 +10,9 @@
                 show-action
                 @search="onSearch"
                 @cancel="onCancel"
+                shape="round"
               >
-                <div slot="action" @click="" style="color: black;font-weight: bold">搜索</div>
+                <div slot="action" @click="" style="color: black">搜索</div>
               </van-search>
             </div>
           </div>

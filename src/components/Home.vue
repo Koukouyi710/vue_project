@@ -5,7 +5,6 @@
       <home-category></home-category>
       <home-hot-sale></home-hot-sale>
       <tabbar></tabbar>
-      这是Home组件
     </div>
 </template>
 

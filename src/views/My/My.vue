@@ -2,7 +2,7 @@
     <div>
       <!--导航-->
       <van-nav-bar title="个人中心">
-        <van-icon name="setting-o" slot="right" @click=""/>
+        <van-icon name="setting-o" slot="right" @click="" size="1.3rem"/>
       </van-nav-bar>
       <!--头像 用户名-->
       <div class="user_box">
@@ -16,11 +16,11 @@
         </div>
         <div class="user_info">
           <div v-if="Object.keys(userInfo).length!=0">
-            <span><a href="#">{{userInfo.username}}</a></span>
+            <span><a href="#" style="color: black">{{userInfo.username}}</a></span>
           </div>
           <!--<a @click="setUserInfo(userInfo)">请登录</a>-->
           <div v-if="Object.keys(userInfo).length==0">
-            <a href="/#/login">请登录</a>
+            <a href="/#/login" style="color: orange">请登录</a>
           </div>
         </div>
       </div>
