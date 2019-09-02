@@ -75,10 +75,10 @@
           })*/
             .then(function (response) {
               var json = response.data
-              console.log(response)
+              /*console.log(response)
               console.log(response.status)
               console.log(response.data.status)
-              console.log(json.data)
+              console.log(json.data)*/
                //sessionStorage.setItem("useInfo",response.data.data)
               if (response.data.status!=0){
                 _vue.massage=response.data.msg

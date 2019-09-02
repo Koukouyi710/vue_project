@@ -3,6 +3,7 @@
       <home-header></home-header>
       <home-carousel></home-carousel>
       <home-category></home-category>
+      <home-new></home-new>
       <home-hot-sale></home-hot-sale>
       <tabbar></tabbar>
     </div>
@@ -13,6 +14,7 @@
   import HomeCarousel from '../views/home/HomeCarousel'
   import HomeCategory from '../views/home/HomeCategory'
   import HomeHotSale from '../views/home/HomeHotSale'
+  import HomeNew from '../views/home/HomeNew'
   import Tabbar from '../components/Tabbar'
     export default {
       name: "Home",
@@ -21,6 +23,7 @@
         HomeCategory,
         HomeCarousel,
         HomeHeader,
+        HomeNew,
         Tabbar
       }
     }

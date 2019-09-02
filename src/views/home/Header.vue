@@ -9,8 +9,9 @@
                 placeholder="请输入搜索关键词"
                 show-action
                 @search="onSearch"
-                @cancel="onCancel"
                 shape="round"
+                clearable
+                right-icon="scan"
               >
                 <div slot="action" @click="" style="color: black">搜索</div>
               </van-search>

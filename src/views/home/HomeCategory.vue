@@ -1,63 +1,47 @@
 <template>
     <div>
-      <van-grid :column-num="5" :border="false">
-        <van-grid-item
-          icon="shop-o"
-          text="类别一"
-          to="/"
-        />
-        <van-grid-item
-          icon="https://img.yzcdn.cn/vant/apple-1.jpg"
-          text="类别二"
-          to="/"
-        />
-        <van-grid-item
-          icon="shop-o"
-          text="类别三"
-          to="/"
-        />
-        <van-grid-item
-          icon="shop-o"
-          text="类别四"
-          to="/"
-        />
-        <van-grid-item
-          icon="shop-o"
-          text="类别五"
-          to="/"
-        />
-        <van-grid-item
-          icon="shop-o"
-          text="类别六"
-          to="/"
-        />
-        <van-grid-item
-          icon="shop-o"
-          text="类别七"
-          to="/"
-        />
-        <van-grid-item
-          icon="shop-o"
-          text="类别八"
-          to="/"
-        />
-        <van-grid-item
-          icon="shop-o"
-          text="类别九"
-          to="/"
-        />
-        <van-grid-item
-          icon="shop-o"
-          text="类别十"
-          to="/"
-        />
-      </van-grid>
+      <!--  :column-num="5"   可以设置列数-->
+        <van-grid :border="false">
+          <van-grid-item
+            v-for="(item,index) of categoryList"
+            :key="index"
+            icon="point-gift-o"
+            :text="item.name"
+            to="/"
+          />
+        </van-grid>
     </div>
 </template>
 
 <script>
     export default {
-        name: "HomeCategory"
+        name: "HomeCategory",
+      data(){
+          return{
+            categoryList:[],
+            count:0
+          }
+      },
+      mounted(){
+        this.getCategroys()
+      },
+      methods:{
+        getCategroys:function () {
+          var _vue=this
+          this.service.get("/manage/category/get_category_count.do")
+            .then(function (response) {
+             /* console.log(response)
+              console.log(response.status)
+              console.log(response.data.status)
+              console.log(response.data.data)*/
+              _vue.categoryList=response.data.data
+              _vue.count=response.data.data.length
+            })
+            .catch(function (error) {
+              console.log(error)
+            })
+        },
+      }
     }
 </script>
 

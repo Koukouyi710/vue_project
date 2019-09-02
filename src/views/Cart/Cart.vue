@@ -57,6 +57,11 @@
                       </div>
                       <div class="cart-item-title">
                         <div class="item-name">{{item.productName}}</div>
+                        <div class="cart-item-operation">
+                          <a href="javascript:void 0" class="item-edit-btn" style="float: right" @click="deleteProduct(item)">
+                            <svg class="icon icon-del"><use xlink:href="#icon-del" ></use></svg>
+                          </a>
+                        </div>
                       </div>
                       <div class="item-include">
                         <dl>
@@ -84,11 +89,7 @@
                       <div class="item-price-total">{{item.productPrice*item.quantity|filterMoney}}</div>
                     </div>
                     <div class="cart-tab-5">
-                      <div class="cart-item-operation">
-                        <a href="javascript:void 0" class="item-edit-btn" @click="deleteProduct(item)">
-                          <svg class="icon icon-del"><use xlink:href="#icon-del" ></use></svg>
-                        </a>
-                      </div>
+
                     </div>
                   </li>
                 </ul>
@@ -167,10 +168,10 @@
           var _vue=this
           this.service.get("/cart/list.do")
             .then(function (response) {
-              console.log(response)
+              /*console.log(response)
               console.log(response.status)
               console.log(response.data.status)
-              console.log(response.data.data)
+              console.log(response.data.data)*/
               _vue.productList=response.data.data.cartProductVOList
               _vue.totlePrice=response.data.data.carttotalprice
               _vue.isallchecked=response.data.data.isallchecked
@@ -186,10 +187,10 @@
             count:product.quantity
           })
             .then(function (response) {
-              console.log(response)
+              /*console.log(response)
               console.log(response.status)
               console.log(response.data.status)
-              console.log(response.data.data)
+              console.log(response.data.data)*/
             })
             .catch(function (error) {
               console.log(error)
@@ -260,10 +261,10 @@
               })
                 .then(function (response) {
                   var json = response.data
-                  console.log(response)
+                  /*console.log(response)
                   console.log(response.status)
                   console.log(response.data.status)
-                  console.log(json.data)
+                  console.log(json.data)*/
                   console.log('成功删除')
                   _vue.reload()
                   /*location.reload()*/
