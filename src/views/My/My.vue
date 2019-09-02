@@ -2,21 +2,22 @@
     <div>
       <!--导航-->
       <van-nav-bar title="个人中心">
-        <van-icon name="setting-o" slot="right" @click="" size="1.3rem"/>
+        <van-icon name="setting-o" slot="right" @click="onClickRight" size="1.3rem"/>
       </van-nav-bar>
       <!--头像 用户名-->
       <div class="user_box">
         <div class="user_img">
           <van-image
             round
-            width="5rem"
-            height="5rem"
+            width="4rem"
+            height="4rem"
             src="https://img.yzcdn.cn/vant/cat.jpeg"
+            @click="onClickRight"
           />
         </div>
         <div class="user_info">
           <div v-if="Object.keys(userInfo).length!=0">
-            <span><a href="#" style="color: black">{{userInfo.username}}</a></span>
+            <span><a href="/#/myinfo" style="color: black">{{userInfo.username}}</a></span>
           </div>
           <!--<a @click="setUserInfo(userInfo)">请登录</a>-->
           <div v-if="Object.keys(userInfo).length==0">
@@ -111,6 +112,9 @@
               console.log(error)
             })
         },
+        onClickRight(){
+          this.$router.push({ path:'/myinfo'})
+        }
       }
     }
 </script>
@@ -124,10 +128,10 @@
   }
   .user_info{
     font-size: 1.38rem;
-    margin-top: 2.6rem;
+    margin-top: 2.3rem;
   }
   .user_order{
-    margin: 1rem;
+    margin: auto 1rem;
     background: white;
     height: 9.3rem;
     border-radius:1rem;

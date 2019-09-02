@@ -1,9 +1,7 @@
 <template>
     <div class="new">
       <div>
-        <van-divider content-position="left">新品上市</van-divider>
-      </div>
-      <div>
+        <van-divider>本周上新</van-divider>
         <!--商品卡-->
         <div v-for="(item,index) of isNewList" :key="index">
           <van-card
@@ -12,7 +10,7 @@
             :desc="item.subtitle"
             :title="item.title"
             :thumb="'http://img.cdn.imbession.top/'+item.mainImage"
-            origin-price="25.00"
+            :origin-price="item.price+300"
           />
         </div>
         <van-pagination
@@ -75,8 +73,8 @@
 
 <style scoped>
   .new{
-    margin: 1rem;
+    margin: 1rem auto;
     background: white;
-    border-radius:1rem;
+    margin-bottom: 3rem;
   }
 </style>

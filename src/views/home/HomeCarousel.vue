@@ -7,7 +7,9 @@
         <van-swipe-item><div style="background-color: yellowgreen;height: 10rem;color: white">4</div></van-swipe-item>
       </van-swipe>-->
       <van-swipe :autoplay="3000" indicator-color="white" touchable="true">
-        <van-swipe-item v-for="(item,index) of isBannerList" :key="index"><van-image :src="'http://img.cdn.imbession.top/'+item.mainImage" height="7rem" fit="cover"></van-image></van-swipe-item>
+        <van-swipe-item v-for="(item,index) of isBannerList" :key="index">
+          <van-image :src="'http://img.cdn.imbession.top/'+item.mainImage" height="7rem" fit="cover"/>
+        </van-swipe-item>
       </van-swipe>
     </div>
 </template>

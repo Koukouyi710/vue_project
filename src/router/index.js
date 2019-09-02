@@ -5,6 +5,7 @@ import Home from '@/components/Home'
 import Login from '@/views/index/login'
 import Cart from '@/views/Cart/Cart'
 import My from '@/views/My/My'
+import MyInfo from '@/views/My/MyInfo'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/my',//个人中心
       name: 'My',
       component: My,
+    },
+    {
+      path: '/myinfo',//个人信息
+      name: 'MyInfo',
+      component: MyInfo,
     }
   ]
 })

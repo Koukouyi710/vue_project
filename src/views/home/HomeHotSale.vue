@@ -1,20 +1,6 @@
 <template>
     <div class="hot_sale">
       <div>
-        <van-divider content-position="left">热销商品</van-divider>
-      </div>
-      <div>
-        <!--商品卡-->
-        <div v-for="(item,index) of isHotList" :key="index">
-          <van-card
-            tag="热卖"
-            :price="item.price"
-            :desc="item.subtitle"
-            :title="item.title"
-            :thumb="'http://img.cdn.imbession.top/'+item.mainImage"
-            origin-price="25.00"
-          />
-        </div>
         <!--倒计时-->
         <div class="timedown">
           <van-divider content-position="right">
@@ -24,6 +10,17 @@
               style="color: red"
             />
           </van-divider>
+        </div>
+        <!--商品卡-->
+        <div v-for="(item,index) of isHotList" :key="index">
+          <van-card
+            tag="热卖"
+            :price="item.price"
+            :desc="item.subtitle"
+            :title="item.title"
+            :thumb="'http://img.cdn.imbession.top/'+item.mainImage"
+            :origin-price="item.price+300"
+          />
         </div>
         <van-pagination
         v-model="currentPage"
@@ -85,9 +82,8 @@
 
 <style scoped>
   .hot_sale{
-    margin: 1rem;
+    margin: 1rem auto;
     background: white;
-    border-radius:1rem;
     margin-bottom: 3rem;
   }
 </style>
