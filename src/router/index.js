@@ -6,6 +6,7 @@ import Login from '@/views/index/login'
 import Cart from '@/views/Cart/Cart'
 import My from '@/views/My/My'
 import MyInfo from '@/views/My/MyInfo'
+import UpdatePassword from '@/views/My/UpdatePassword'
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
       path: '/myinfo',//个人信息
       name: 'MyInfo',
       component: MyInfo,
+    },
+    {
+      path: '/updatepassword',//修改用户名
+      name: 'UpdatePassword',
+      component: UpdatePassword,
     }
   ]
 })
