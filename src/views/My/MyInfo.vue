@@ -49,7 +49,7 @@
                     error-message-align="right"
                     />
 
-        <van-cell title="修改密码" value=" " is-link to=""  title-style="position:absolute;margin-left:1rem"/>
+        <van-cell title="修改密码" value=" " is-link to="/updatePassword"  title-style="position:absolute;margin-left:1rem"/>
 
         <van-field  v-model="userInfo.email"
                     label="电子邮箱"
