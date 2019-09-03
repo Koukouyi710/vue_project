@@ -28,6 +28,8 @@
         <span @click="Login"><submit-button value="登录"></submit-button></span>
       </div>
     </div>
+    <br>
+    <a href="/#/forgetPassword" style="font-size: 0.9rem;color: #20a0ff">忘记密码？</a>
     <!--<p>用户名：{{userInfo.username}} 密码:{{userInfo.password}}</p>-->
     <!--<p>{{massage}}</p>-->
   </div>
@@ -98,7 +100,7 @@
           this.$router.push({ path:'/my'})
         },
         onClickRight() {
-          this.$router.push({ path:'/login'})
+          this.$router.push({ path:'/regist'})
         }
       },
     }

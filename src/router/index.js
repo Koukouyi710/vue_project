@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Home from '@/components/Home'
 import Login from '@/views/index/login'
+import Regist from '@/views/index/regist'
+import ForgetPassword from "@/views/index/forgetPassword"
 import Cart from '@/views/Cart/Cart'
 import My from '@/views/My/My'
 import MyInfo from '@/views/My/MyInfo'
@@ -29,6 +31,17 @@ export default new Router({
       name: 'Login',
       component: Login,
     },
+    {
+      path: '/regist',//用户注册
+      name: 'Regist',
+      component: Regist,
+    },
+    {
+      path: '/forgetPassword',//忘记密码
+      name: 'ForgetPassword',
+      component: ForgetPassword,
+    },
+
     {
       path: '/cart',//购物车
       name: 'Cart',
