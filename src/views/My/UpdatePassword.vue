@@ -41,12 +41,23 @@
     </div>
 
     <div v-if="type==1">
+      <van-button type="default" size="large" @click="type=0">取消修改密保问题</van-button>
+      <van-field
+        v-model="question"
+        label="密保问题"
+        placeholder="请输入密保问题"
+        required
+        clearable
+      />
+      <van-field
+        v-model="answer"
+        label="密保问题"
+        placeholder="请输入密保问题"
+        required
+        clearable
+      />
       <van-button type="danger" size="large" @click="Change">确认修改</van-button>
     </div>
-    {{type}}
-    oldPassword：{{oldPassword}}
-    newPassword：{{newPassword}}
-    checkNewPassword：{{checkNewPassword}}
   </div>
 </template>
 
@@ -69,6 +80,7 @@
           onClickLeft() {
             this.$router.push({ path:'/myinfo'})
           },
+          /*带有密保*/
           Change:function(){
             if (this.oldPassword==""){
               Toast('旧密码为空!')
@@ -82,7 +94,46 @@
             else if (this.error!=""){
               Toast(this.error)
             }
+            else if (this.question==""){
+              Toast('密保问题为空!')
+            }
+            else if (this.answer==""){
+              Toast('密保答案为空!')
+            }
+            var _vue=this
+
+            this.service.get("/user/reset_password.do",{
+              params:{
+                passwordOld: this.oldPassword,
+                passwordNew: this.newPassword
+              }
+            })
+              .then(function (response) {
+                if(response.data.status==100){
+                  Toast.fail(response.data.msg)
+                  _vue.error=response.data.msg
+                }
+                else if(response.data.status==0){
+                  _vue.service.get("/user/update_information.do",{
+                    params:{
+                      question: _vue.question,
+                      answer: _vue.answer
+                    }
+                  })
+                    .then(function (response) {
+                      Toast.success('修改成功！');
+                      _vue.$router.push({ path:'/myinfo'})
+                    })
+                    .catch(function (error) {
+                      console.log(error)
+                    })
+                }
+              })
+              .catch(function (error) {
+                console.log(error)
+              })
           },
+          /*只改密码*/
           toChange:function() {
             if (this.oldPassword==""){
               Toast('旧密码为空!')
@@ -99,13 +150,24 @@
 
             else{
               var _vue=this
-              this.service.get("/user/get_user_info.do")
+              this.service.get("/user/reset_password.do",{
+                params:{
+                  passwordOld: this.oldPassword,
+                  passwordNew: this.newPassword
+                }
+              })
                 .then(function (response) {
                   /*console.log(response)
                   console.log(response.status)
                   console.log(response.data.status)
-                  console.log(response.data.data)*/
-                  _vue.userInfo=response.data.data
+                  console.log(response.data.msg)*/
+                  if(response.data.status==100){
+                    Toast.fail(response.data.msg)
+                  }
+                  else if(response.data.status==0){
+                    Toast.success(response.data.msg)
+                    _vue.$router.push({ path:'/myinfo'})
+                  }
                 })
                 .catch(function (error) {
                   console.log(error)
