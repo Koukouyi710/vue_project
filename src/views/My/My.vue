@@ -29,8 +29,9 @@
       <!--订单-->
       <div class="user_order">
         <!--文字-->
-        <a href="#" style="font-size: 0.83rem;"><span style="float: left;margin-left: 1rem;margin-top:0.5rem;color: black">我的订单</span>
-          <span style="float: right;margin-right: 1rem;margin-top:0.5rem;color: gray">查看全部订单 <van-icon name="arrow" size="0.83rem"/></span></a><br>
+        <router-link :to="{name:'Myorder',params:{act:0}}">
+          <span style="float: left;font-size: 0.83rem;margin-left: 1rem;margin-top:0.5rem;color: black">我的订单</span>
+          <span style="float: right;margin-right: 1rem;margin-top:0.5rem;font-size: 0.83rem;color: gray">查看全部订单 <van-icon name="arrow" size="0.83rem"/></span></router-link><br>
         <!--分割线-->
         <van-divider></van-divider>
         <!--订单宫格框-->
@@ -38,27 +39,27 @@
           <van-grid-item
             icon="paid"
             text="待付款"
-            to="/"
+            :to="{name:'Myorder',params:{act:1}}"
           />
           <van-grid-item
             icon="send-gift-o"
             text="待发货"
-            to="/"
+            :to="{name:'Myorder',params:{act:2}}"
           />
           <van-grid-item
             icon="logistics"
             text="待收货"
-            to="/"
+            :to="{name:'Myorder',params:{act:3}}"
           />
           <van-grid-item
             icon="comment-o"
             text="评价"
-            to="/"
+            :to="{name:'Myorder',params:{act:4}}"
           />
           <van-grid-item
             icon="after-sale"
             text="退款/售后"
-            to="/"
+            :to="{name:'Myorder',params:{act:4}}"
           />
         </van-grid>
 

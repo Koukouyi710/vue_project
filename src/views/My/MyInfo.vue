@@ -119,10 +119,10 @@
             var _vue=this
             this.service.get("/user/get_user_info.do")
               .then(function (response) {
-                console.log(response)
+                /*console.log(response)
                 console.log(response.status)
                 console.log(response.data.status)
-                console.log(response.data.data)
+                console.log(response.data.data)*/
                 _vue.userInfo=response.data.data
               })
               .catch(function (error) {
@@ -182,10 +182,10 @@
               }
             })
               .then(function (response) {
-                console.log(response)
+                /*console.log(response)
                 console.log(response.status)
                 console.log(response.data.status)
-                console.log(response.data.data)
+                console.log(response.data.data)*/
                 Toast.success('修改成功！');
               })
               .catch(function (error) {

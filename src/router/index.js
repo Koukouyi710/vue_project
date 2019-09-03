@@ -7,6 +7,8 @@ import Cart from '@/views/Cart/Cart'
 import My from '@/views/My/My'
 import MyInfo from '@/views/My/MyInfo'
 import UpdatePassword from '@/views/My/UpdatePassword'
+import Myorder from '@/views/Order/Myorder'
+import OrderDetail from '@/views/Order/OrderDetail'
 
 Vue.use(Router)
 
@@ -43,9 +45,19 @@ export default new Router({
       component: MyInfo,
     },
     {
-      path: '/updatepassword',//修改用户名
+      path: '/updatepassword',//修改密码
       name: 'UpdatePassword',
       component: UpdatePassword,
+    },
+    {
+      path: '/myorder/:act',//我的订单
+      name: 'Myorder',
+      component: Myorder,
+    },
+    {
+      path: '/orderDetail/:orderNo',//订单详情
+      name: 'OrderDetail',
+      component: OrderDetail,
     }
   ]
 })
