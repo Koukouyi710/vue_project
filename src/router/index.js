@@ -5,6 +5,7 @@ import Home from '@/components/Home'
 import Login from '@/views/index/login'
 import Regist from '@/views/index/regist'
 import ForgetPassword from "@/views/index/forgetPassword"
+import ResetPassword from "@/views/index/resetPassword"
 import Cart from '@/views/Cart/Cart'
 import My from '@/views/My/My'
 import MyInfo from '@/views/My/MyInfo'
@@ -41,7 +42,11 @@ export default new Router({
       name: 'ForgetPassword',
       component: ForgetPassword,
     },
-
+    {
+      path: '/resetPassword/:username/:forgetToken',//重置密码
+      name: 'ResetPassword',
+      component: ResetPassword,
+    },
     {
       path: '/cart',//购物车
       name: 'Cart',

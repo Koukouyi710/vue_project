@@ -84,6 +84,10 @@
 
         <van-cell title="注册时间" :value="userInfo.createTime"  title-style="position:absolute;margin-left:1rem"/>
       </van-cell-group>
+
+      <van-cell-group title=" ">
+        <van-cell title="退出当前账号" value=" " title-style="position:absolute;margin-left:1rem" @click="exit"/>
+      </van-cell-group>
     </div>
   </div>
 </template>
@@ -192,6 +196,9 @@
                 console.log(error)
               })
           },
+          exit:function () {
+            
+          }
         }
     }
 </script>
