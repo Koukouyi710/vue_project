@@ -13,6 +13,7 @@ import UpdatePassword from '@/views/My/UpdatePassword'
 import Myorder from '@/views/Order/Myorder'
 import OrderDetail from '@/views/Order/OrderDetail'
 import ProductItem from "@/views/Product/productItem"
+import ToPay from '@/views/Pay/ToPay'
 
 Vue.use(Router)
 
@@ -82,6 +83,11 @@ export default new Router({
       path: '/productItem/:productNo',//商品详情
       name: 'ProductItem',
       component: ProductItem,
+    },
+    {
+      path: '/topay/:orderNo',//支付
+      name: 'ToPay',
+      component: ToPay,
     }
   ]
 })
