@@ -4,6 +4,7 @@
         <van-divider>本周上新</van-divider>
         <!--商品卡-->
         <div v-for="(item,index) of isNewList" :key="index">
+          <router-link :to="{name:'ProductItem',params:{productNo:item.id}}">
           <van-card
             tag="新品"
             :price="item.price"
@@ -12,12 +13,13 @@
             :thumb="'http://img.cdn.imbession.top/'+item.mainImage"
             :origin-price="item.price+300"
           />
+          </router-link>
         </div>
         <van-pagination
           v-model="currentPage"
           :total-items="count"
-          :items-per-page="3"
-          @change="getNew(currentPage,3)"
+          :items-per-page="size"
+          @change="getNew(currentPage,size)"
           mode="simple"
         >
         </van-pagination>
@@ -37,11 +39,13 @@
           return {
             count:0,
             currentPage: 1,
-            isNewList:[]
+            isNewList:[],
+            totalPage:0,
+            size: 5
           };
         },
       mounted(){
-          this.getNew(1,3)
+          this.getNew(1,this.size)
       },
       methods:{
         getNew:function (pageNum,pageSize) {

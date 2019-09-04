@@ -16,7 +16,9 @@
           width="6rem"
           height="6rem"
           src="https://img.yzcdn.cn/vant/cat.jpeg"
-        /><br>
+        />
+        <!--<van-icon name="user-circle-o" size="6rem" color="lightgrey"/>-->
+        <br>
       </div>
       <div class="user_text">
         <input-box placeholder="请输入用户名" v-model="userInfo.username"></input-box>

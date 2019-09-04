@@ -1,19 +1,38 @@
 <template>
     <div>
       <!--导航-->
-      <van-nav-bar title="个人中心">
-        <van-icon name="setting-o" slot="right" @click="onClickRight" size="1.3rem"/>
-      </van-nav-bar>
+      <div v-if="Object.keys(userInfo).length!=0">
+        <van-nav-bar title="个人中心">
+          <van-icon name="setting-o" slot="right" @click="onClickRight" size="1.3rem" :aria-disabled="status"/>
+        </van-nav-bar>
+      </div>
+      <div v-if="Object.keys(userInfo).length==0">
+        <van-nav-bar title="个人中心">
+          <van-icon name="home-o" slot="right" @click="toLogin" size="1.3rem" :aria-disabled="status"/>
+        </van-nav-bar>
+      </div>
       <!--头像 用户名-->
       <div class="user_box">
         <div class="user_img">
-          <van-image
+          <div v-if="Object.keys(userInfo).length!=0">
+            <van-image
             round
             width="4rem"
             height="4rem"
             src="https://img.yzcdn.cn/vant/cat.jpeg"
             @click="onClickRight"
-          />
+            />
+          </div>
+          <div v-if="Object.keys(userInfo).length==0">
+            <van-image
+              round
+              width="4rem"
+              height="4rem"
+              src="https://img.yzcdn.cn/vant/cat.jpeg"
+              @click="toLogin"
+            />
+            <!--<van-icon name="user-circle-o" size="4rem" @click="toLogin"/>-->
+          </div>
         </div>
         <div class="user_info">
           <div v-if="Object.keys(userInfo).length!=0">
@@ -91,7 +110,8 @@
             userInfo:{
              /* username:"",
               password:""*/
-            }
+            },
+            status:true
           }
       },
       mounted(){
@@ -115,6 +135,9 @@
         },
         onClickRight(){
           this.$router.push({ path:'/myinfo'})
+        },
+        toLogin(){
+          this.$router.push({ path:'/login'})
         }
       }
     }

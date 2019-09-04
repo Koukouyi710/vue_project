@@ -13,6 +13,7 @@
         </div>
         <!--商品卡-->
         <div v-for="(item,index) of isHotList" :key="index">
+          <router-link :to="{name:'ProductItem',params:{productNo:item.id}}">
           <van-card
             tag="热卖"
             :price="item.price"
@@ -21,12 +22,20 @@
             :thumb="'http://img.cdn.imbession.top/'+item.mainImage"
             :origin-price="item.price+300"
           />
+          </router-link>
         </div>
+
+        <!--<van-swipe :autoplay="3000" indicator-color="white">
+          <van-swipe-item v-for="index in totalPage">
+          </van-swipe-item>
+        </van-swipe>-->
+
+        <!--分页-->
         <van-pagination
         v-model="currentPage"
         :total-items="count"
-        :items-per-page="3"
-        @change="getHot(currentPage,3)"
+        :items-per-page="size"
+        @change="getHot(currentPage,size)"
         mode="simple"
       >
       </van-pagination>
@@ -46,11 +55,13 @@
             time: 30 * 60 * 60 * 1000,
             count:0,
             currentPage: 1,
-            isHotList:[]
+            isHotList:[],
+            totalPage:0,
+            size:5
           };
         },
       mounted(){
-        this.getHot(1,3)
+        this.getHot(1,this.size)
       },
       methods:{
         getHot:function (pageNum,pageSize) {
@@ -65,17 +76,26 @@
             }
           })
             .then(function (response) {
-              /*console.log(response)
+              console.log(response)
               console.log(response.status)
               console.log(response.data.status)
-              console.log(response.data.data.list)*/
+              console.log(response.data.data.list)
               _vue.isHotList=response.data.data.list
               _vue.count=response.data.data.total
+              _vue.totalPage=response.data.data.pages
             })
             .catch(function (error) {
               console.log(error)
             })
         },
+        change(){
+          if (this.currentPage>=this.totalPage) {
+            this.currentPage=1;
+          }
+          if (this.currentPage<this.totalPage){
+            this.currentPage++
+          }
+        }
       }
     }
 </script>

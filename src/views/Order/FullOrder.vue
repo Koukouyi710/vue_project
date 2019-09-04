@@ -13,7 +13,7 @@
         v-for="(item,index) of sumList"
         :key="index"
       >
-        <router-link :to="{name:'OrderDetail',params:{orderNo:item.orderNo}}">
+        <router-link :to="{name:'OrderDetail',params:{active:0,orderNo:item.orderNo}}">
           <van-panel :title="'订单号:'+item.orderNo" :desc="'支付方式—'+item.paymentTypeDesc" :status="item.statusDesc"/>
           <div v-for="(product,p_index) of item.orderItemVoList" :key="p_index">
             <van-card

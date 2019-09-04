@@ -15,6 +15,7 @@
     </van-cell>
     <div style="margin-top: 1rem;text-align: left">
       <div v-for="(product,p_index) of orderDetail.orderItemVoList" :key="p_index">
+        <router-link :to="{name:'ProductItem',params:{productNo:product.productId}}">
         <van-card
           :num="product.quantity"
           :price="product.currentUnitPrice"
@@ -23,6 +24,7 @@
           :thumb="'http://img.cdn.imbession.top/'+product.productImage"
           @click="toProductDetail"
         />
+        </router-link>
       </div>
     </div>
     <van-divider />
@@ -79,7 +81,8 @@
       data(){
         return{
           orderNo:this.$route.params.orderNo, //订单号
-          orderDetail:{}
+          orderDetail:{},
+          act:this.$route.params.active
         }
       },
       mounted(){
@@ -87,7 +90,7 @@
       },
       methods:{
         onClickLeft() {
-          this.$router.push({ path:'/myorder/0'})
+          this.$router.push({ name:'Myorder',params:{act:this.act}})
         },
         toProductDetail(){
           /*this.$router.push({ path:'/myorder/0'})*/

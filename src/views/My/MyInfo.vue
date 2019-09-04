@@ -95,6 +95,7 @@
 <script>
     import { Cell, CellGroup } from 'vant';
     import { Toast } from 'vant';
+    import { Dialog } from 'vant';
     export default {
         name: "MyInfo",
         data(){
@@ -197,7 +198,29 @@
               })
           },
           exit:function () {
-            
+            var _vue=this
+            Dialog.confirm({
+              title: '提示',
+              message: '您确定要退出当前账号吗？'
+            }).then(action =>{
+              if(action == 'confirm'){
+                this.service.get("/user/logout.do")
+                  .then(function (response) {
+                    console.log(response)
+                    console.log(response.status)
+                    console.log(response.data.status)
+                    console.log(response.data.data)
+                    Toast.success('登出成功！');
+                    _vue.$router.push({path:'/my'})
+
+                  })
+                  .catch(function (error) {
+                    console.log(error)
+                  })
+              }
+            }).catch(() => {
+              console.log('取消删除')
+            });
           }
         }
     }

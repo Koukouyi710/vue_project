@@ -8,7 +8,9 @@
       </van-swipe>-->
       <van-swipe :autoplay="3000" indicator-color="white" touchable="true">
         <van-swipe-item v-for="(item,index) of isBannerList" :key="index">
+          <router-link :to="{name:'ProductItem',params:{productNo:item.id}}">
           <van-image :src="'http://img.cdn.imbession.top/'+item.mainImage" height="7rem" fit="cover"/>
+          </router-link>
         </van-swipe-item>
       </van-swipe>
     </div>

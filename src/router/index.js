@@ -12,6 +12,7 @@ import MyInfo from '@/views/My/MyInfo'
 import UpdatePassword from '@/views/My/UpdatePassword'
 import Myorder from '@/views/Order/Myorder'
 import OrderDetail from '@/views/Order/OrderDetail'
+import ProductItem from "@/views/Product/productItem"
 
 Vue.use(Router)
 
@@ -73,9 +74,14 @@ export default new Router({
       component: Myorder,
     },
     {
-      path: '/orderDetail/:orderNo',//订单详情
+      path: '/orderDetail/:active/:orderNo',//订单详情
       name: 'OrderDetail',
       component: OrderDetail,
+    },
+    {
+      path: '/productItem/:productNo',//商品详情
+      name: 'ProductItem',
+      component: ProductItem,
     }
   ]
 })

@@ -46,6 +46,7 @@
                 </div>
                 <ul class="cart-item-list">
                   <li v-for="(item,index) of productList" :key="index">
+                    <router-link :to="{name:'ProductItem',params:{productNo:item.id}}">
                     <div class="cart-tab-1">
                       <div class="cart-item-check">
                         <a href="javascript:void 0" class="item-check-btn" v-bind:class="{'check':item.productChecked}" @click="checkProduct(item)">
@@ -91,6 +92,7 @@
                     <div class="cart-tab-5">
 
                     </div>
+                    </router-link>
                   </li>
                 </ul>
               </div>
