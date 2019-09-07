@@ -17,17 +17,25 @@
 </template>
 
 <script>
+  import {Toast} from 'vant'
     export default {
         name: "ToPay",
       data(){
           return{
             orderNo:this.$route.params.orderNo,
             qrCode:"",
-            isLoading: false
+            isLoading: false,
+            timer:null
           }
       },
       mounted(){
           this.toPay()
+        this.timer=setInterval(() => {
+          setTimeout(this.checkStatus, 0)
+        }, 3000)
+      },
+      destroyed(){
+          clearInterval(this.timer)
       },
       methods:{
         onClickLeft(){this.$router.push('/my')},
@@ -56,6 +64,27 @@
               console.log(error)
             })
         },
+        checkStatus(){
+          var _vue=this
+          this.service.get("/order/query_order_pay_status.do",{
+            params:{
+              orderNo:this.orderNo
+            }
+          })
+            .then(function (response) {
+              console.log(response)
+              console.log(response.status)
+              console.log(response.data.status)
+              console.log(response.data.data)
+              if (response.data.data==true){
+                Toast.success("支付成功！")
+                _vue.$router.push({name:'Myorder',params:{act:2}})
+              }
+            })
+            .catch(function (error) {
+              console.log(error)
+            })
+        }
       }
     }
 </script>
