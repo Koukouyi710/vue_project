@@ -46,16 +46,17 @@
                 </div>
                 <ul class="cart-item-list">
                   <li v-for="(item,index) of productList" :key="index">
-                    <router-link :to="{name:'ProductItem',params:{productNo:item.id}}">
                     <div class="cart-tab-1">
                       <div class="cart-item-check">
                         <a href="javascript:void 0" class="item-check-btn" v-bind:class="{'check':item.productChecked}" @click="checkProduct(item)">
                           <svg class="icon icon-ok"><use xlink:href="#icon-ok"></use></svg>
                         </a>
                       </div>
+                      <router-link :to="{name:'ProductItem',params:{productNo:item.id}}">
                       <div class="cart-item-pic">
                         <img :src="'http://img.cdn.imbession.top/'+item.productMainImage" alt="商品主图">
                       </div>
+                      </router-link>
                       <div class="cart-item-title">
                         <div class="item-name">{{item.productName}}</div>
                         <div class="cart-item-operation">
@@ -92,7 +93,6 @@
                     <div class="cart-tab-5">
 
                     </div>
-                    </router-link>
                   </li>
                 </ul>
               </div>
@@ -116,7 +116,13 @@
                          <span>取消全选</span>
                        </a>
                      </div>-->
-                    <button href="javascrit:;" style="color: white;background-color: red;width: 7rem;float: right;margin-left: 1rem">提交订单</button>
+                    <div v-if="totlePrice!=0">
+                      <router-link :to="{name:'CheckOrder',params:{shippingId:'0'}}">
+                        <button style="color: white;background-color: red;width: 7rem;float: right;margin-left: 1rem">提交订单</button>
+                        <!--({{count}})-->
+                      </router-link>
+                    </div>
+                    <div v-if="totlePrice==0"><button @click="$toast('未选中商品')" style="color: white;background-color: red;width: 7rem;float: right;margin-left: 1rem">提交订单</button></div>
                     <span style="color: gray;font-size: 0.8rem;float: right">合计: <span class="total-price" v-model="totlePrice" style="color: red;font-size: 1rem">{{updateTotalPrice()|filterMoney}}</span></span>
                   </div>
                 </div>
@@ -156,16 +162,75 @@
         data(){
           return{
             productList:[],
+            count:0,
             totlePrice:0,
-            isallmsg:"取消全选"
+            isallmsg:"全选"
         }
       },
-
       mounted(){
           this.getCarts()
       },
-
       methods: {
+        getCount:function () {
+          var _vue=this
+          this.service.get("/cart/get_cart_product_count.do",)
+            .then(function (response) {
+              _vue.count=response.data.data
+              _vue.reload()
+            })
+            .catch(function (error) {
+              console.log(error)
+            })
+        },
+        clearSelect:function () {
+          var _vue=this
+          this.service.get("/cart/un_select_all.do")
+            .then(function (response) {
+             // _vue.getCount()
+            })
+            .catch(function (error) {
+              console.log(error)
+            })
+        },
+       select:function () {
+          var _vue=this
+          this.service.get("/cart/select_all.do")
+            .then(function (response) {
+              //_vue.getCount()
+            })
+            .catch(function (error) {
+              console.log(error)
+            })
+        },
+
+        toSelect:function (productId) {
+          var _vue=this
+          this.service.get("/cart/select.do",{
+            params:{
+              productId:productId
+            }
+          })
+            .then(function (response) {
+              //_vue.getCount()
+            })
+            .catch(function (error) {
+              console.log(error)
+            })
+        },
+        toUnSelect:function (productId) {
+          var _vue=this
+          this.service.get("/cart/un_select.do",{
+            params:{
+              productId:productId
+            }
+          })
+            .then(function (response) {
+              //_vue.getCount()
+            })
+            .catch(function (error) {
+              console.log(error)
+            })
+        },
         getCarts:function () {
           var _vue=this
           this.service.get("/cart/list.do")
@@ -209,6 +274,12 @@
         },
         checkProduct:function (product) {
           product.productChecked=!product.productChecked
+          if (product.productChecked==true){
+            this.toSelect(product.productId)
+          }
+          if (product.productChecked==false){
+            this.toUnSelect(product.productId)
+          }
           var flag=0
           this.productList.forEach(function (product,index) {
             if (product.productChecked==true) {
@@ -228,6 +299,7 @@
           if (this.isallchecked==true){
             this.isallchecked=false
             this.isallmsg="全选"
+            this.clearSelect()
             this.productList.forEach(function (product,index) {
               product.productChecked=false
             })
@@ -235,6 +307,7 @@
           else {
             this.isallchecked=true
             this.isallmsg="取消全选"
+            this.select()
             this.productList.forEach(function (product,index) {
               product.productChecked=true
             })

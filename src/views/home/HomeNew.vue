@@ -2,6 +2,16 @@
     <div class="new">
       <div>
         <van-divider>本周上新</van-divider>
+
+        <van-list
+          v-model="loading"
+          :finished="finished"
+          finished-text="没有更多了"
+          :error.sync="error"
+          error-text="请求失败，点击重新加载"
+          @load="onLoad"
+        >
+
         <!--商品卡-->
         <div v-for="(item,index) of isNewList" :key="index">
           <router-link :to="{name:'ProductItem',params:{productNo:item.id}}">
@@ -15,14 +25,15 @@
           />
           </router-link>
         </div>
-        <van-pagination
+        </van-list>
+        <!--<van-pagination
           v-model="currentPage"
           :total-items="count"
           :items-per-page="size"
           @change="getNew(currentPage,size)"
           mode="simple"
         >
-        </van-pagination>
+        </van-pagination>-->
       </div>
     </div>
 </template>
@@ -38,16 +49,39 @@
         data() {
           return {
             count:0,
-            currentPage: 1,
+            currentPage: 0,
             isNewList:[],
+            list: [],
+            loading: false,
+            error:false,
+            finished: false,
             totalPage:0,
             size: 5
           };
         },
       mounted(){
-          this.getNew(1,this.size)
+          this.getNew(this.currentPage,this.size)
       },
       methods:{
+        onLoad() {
+          // 异步更新数据
+          setTimeout(() => {
+            for (let i = 0; i < this.list.length; i++) {
+              this.isNewList.push(this.list[i])
+            }
+            // 加载状态结束
+            this.loading = false;
+            // 数据全部加载完成
+            if (this.isNewList.length >= this.count) {
+              this.finished = true;
+            }
+          }, 500)
+            .catch(() => {
+              this.error = true;
+            })
+          this.currentPage++
+          this.getNew(this.currentPage,this.size)
+        },
         getNew:function (pageNum,pageSize) {
           var _vue=this
           this.service.get("/product/detail.do",{
@@ -64,8 +98,8 @@
                console.log(response.status)
                console.log(response.data.status)
                console.log(response.data.data.list)*/
-              _vue.isNewList=response.data.data.list
               _vue.count=response.data.data.total
+              _vue.list=response.data.data.list
             })
             .catch(function (error) {
               console.log(error)

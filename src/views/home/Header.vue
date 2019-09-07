@@ -4,16 +4,15 @@
           <div style="display: flex;align-items: center">
             <div style="flex: 1">
               <van-search
-                background="gainsboro"
-                v-model="value"
+                background="lightgray"
+                v-model="keyword"
                 placeholder="请输入搜索关键词"
                 show-action
-                @search="onSearch"
                 shape="round"
                 clearable
                 right-icon="scan"
               >
-                <div slot="action" @click="" style="color: black">搜索</div>
+                <div slot="action" @click="onSearch" style="color: black">搜索</div>
               </van-search>
             </div>
           </div>
@@ -22,9 +21,20 @@
 </template>
 
 <script>
-    import { Icon } from 'vant';
+  import { Icon } from 'vant';
+  import { Toast } from 'vant';
     export default {
-      name: "HomeHeader"
+      name: "HomeHeader",
+      data(){
+        return{
+          keyword:""
+        }
+      },
+      methods:{
+        onSearch(){
+          this.$router.push({name:'SearchList',params:{keyword:this.keyword}})
+        }
+      }
     }
 </script>
 

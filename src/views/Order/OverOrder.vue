@@ -43,6 +43,7 @@
           loading: false,
           error:false,
           currentPage: 1,
+          count:0,
           finished: false,
           total:0     //记录总记录数
         };
@@ -67,13 +68,13 @@
             for (let i = 0; i < this.list.length; i++) {
               if(this.list[i].status==0||this.list[i].status==60){
                 this.sumList.push(this.list[i])
-                this.total++
               }
+              this.count++
             }
             // 加载状态结束
             this.loading = false;
             // 数据全部加载完成
-            if (this.sumList.length >= this.total) {
+            if (this.count >= this.total) {
               this.finished = true;
             }
           }, 500)
@@ -93,6 +94,7 @@
                console.log(response.data.status)
                console.log(response.data.data.list)*/
               _vue.list=response.data.data.list
+              _vue.total=response.data.data.total
             })
             .catch(function (error) {
               console.log(error)

@@ -14,6 +14,11 @@ import Myorder from '@/views/Order/Myorder'
 import OrderDetail from '@/views/Order/OrderDetail'
 import ProductItem from "@/views/Product/productItem"
 import ToPay from '@/views/Pay/ToPay'
+import CheckOrder from '@/views/Pay/CheckOrder'
+import ShippingList from '@/views/Shipping/ShippingList'
+import NewShipping from '@/views/Shipping/NewShipping'
+import ProductList from '@/views/Category/ProductList'
+import SearchList from '@/views/Category/SearchList'
 
 Vue.use(Router)
 
@@ -88,6 +93,32 @@ export default new Router({
       path: '/topay/:orderNo',//支付
       name: 'ToPay',
       component: ToPay,
-    }
+    },
+    {
+      path: '/checkOrder/:shippingId',//创建订单
+      name: 'CheckOrder',
+      component: CheckOrder,
+    },
+    {
+      path: '/shippingList/:shippingId',//地址
+      name: 'ShippingList',
+      component: ShippingList,
+    },
+    {
+      path: '/newShipping/:shippingId',//添加/更新地址
+      name: 'NewShipping',
+      component: NewShipping,
+    },
+    {
+      path: '/productList/:categoryId',//商品列表
+      name: 'ProductList',
+      component: ProductList,
+    },
+    {
+      path: '/searchList/:keyword',//商品列表
+      name: 'SearchList',
+      component: SearchList,
+    },
+
   ]
 })

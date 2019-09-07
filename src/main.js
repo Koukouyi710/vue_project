@@ -13,6 +13,7 @@ import fastClick from 'fastClick'
 import Vant from 'vant';
 import 'vant/lib/index.css';
 import {store} from './store/index'
+import AreaList from './assets/js/Area.js'
 
 Vue.use(Vant);
 import { Search } from 'vant';
@@ -37,6 +38,8 @@ fastClick.attach(document.body)
 Vue.config.productionTip = false;
 Vue.prototype.service = service;
 Vue.use(MintUI);
+Vue.prototype.$AreaList = AreaList
+
 
 /* eslint-disable no-new */
 new Vue({

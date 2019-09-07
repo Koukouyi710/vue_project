@@ -7,7 +7,7 @@
             :key="index"
             icon="point-gift-o"
             :text="item.name"
-            to="/"
+            :to="{name:'ProductList',params:{categoryId:item.id}}"
           />
         </van-grid>
     </div>
@@ -28,9 +28,13 @@
       methods:{
         getCategroys:function () {
           var _vue=this
-          this.service.get("/manage/category/get_category_count.do")
+          this.service.get("/manage/category/get_category_count.do",{
+            params:{
+              parentId:0
+            }
+          })
             .then(function (response) {
-             /* console.log(response)
+              /*console.log(response)
               console.log(response.status)
               console.log(response.data.status)
               console.log(response.data.data)*/

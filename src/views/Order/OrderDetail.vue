@@ -43,12 +43,10 @@
       </div>
       <div style="float: right;margin: 1rem">
         <div v-if="orderDetail.status==10">
-          <router-link to="#">
+          <router-link :to="{name:'ToPay',params:{active:0,orderNo:orderDetail.orderNo}}">
             <van-button type="info" size="small">确认付款</van-button >
           </router-link>
-          <router-link to="#">
-            <van-button color="gray" size="small">取消订单</van-button >
-          </router-link>
+            <van-button color="gray" size="small" @click="onCancel(orderDetail.orderNo)">取消订单</van-button >
         </div>
         <div v-if="orderDetail.status==20" style="margin-left: 3rem">
           <router-link to="#">
@@ -76,8 +74,10 @@
 </template>
 
 <script>
+  import {Toast} from 'vant'
     export default {
       name: "OrderDetail",
+      inject:['reload'],
       data(){
         return{
           orderNo:this.$route.params.orderNo, //订单号
@@ -113,6 +113,27 @@
               console.log(error)
             })
         },
+        onCancel:function (orderNo) {
+          var _vue=this
+          this.service.get("/order/cancel.do",{
+            params:{
+              orderNo:orderNo
+            }
+          })
+            .then(function (response) {
+              /* console.log(response)
+               console.log(response.status)
+               console.log(response.data.status)
+               console.log(response.data.data.list)*/
+              if(response.data.status==0){
+                Toast('取消订单成功！')
+                _vue.reload()
+              }
+            })
+            .catch(function (error) {
+              console.log(error)
+            })
+        }
       }
     }
 </script>

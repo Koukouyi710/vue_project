@@ -36,7 +36,7 @@
     <div>
       <!--文字部分-->
       <van-cell-group>
-        <van-cell title="修改收货地址" value=" " is-link to=""  title-style="position:absolute;margin-left:1rem"/>
+        <van-cell title="修改收货地址" value=" " is-link :to="{name:'ShippingList',params:{shippingId:-1}}"  title-style="position:absolute;margin-left:1rem"/>
       </van-cell-group>
       <van-cell-group title=" ">
         <van-cell title="用户ID" :value="userInfo.id" title-style="position:absolute;margin-left:1rem"/>

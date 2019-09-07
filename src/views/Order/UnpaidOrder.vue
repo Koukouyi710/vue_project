@@ -24,35 +24,36 @@
               :thumb="'http://img.cdn.imbession.top/'+product.productImage"
             />
           </div>
+        </router-link>
           <div style="float: right"><span style="color: black">合计：</span>
             <span style="color: red"> ￥{{item.payment.toFixed(2)}}元</span>
             <div >
-              <router-link to="#">
+              <router-link :to="{name:'ToPay',params:{active:0,orderNo:item.orderNo}}">
               <van-button type="info" size="small">确认付款</van-button >
               </router-link>
-              <router-link to="#">
-              <van-button color="gray" size="small">取消订单</van-button >
-              </router-link>
+              <van-button color="gray" size="small" @click="onCancel(item.orderNo)">取消订单</van-button >
             </div>
           </div>
-        </router-link>
       </van-cell>
     </van-list>
   </div>
 </template>
 
 <script>
+  import {Toast} from 'vant'
     export default {
         name: "UnpaidOrder",
+      inject:['reload'],
       data() {
         return {
           sumList: [],
           list: [],
           loading: false,
           error:false,
-          currentPage: 1,
+          currentPage: 0,
           finished: false,
-          total:0     //记录总记录数
+          total:0,     //记录总记录数
+          count:0
         };
       },
       mounted(){
@@ -75,13 +76,13 @@
             for (let i = 0; i < this.list.length; i++) {
               if(this.list[i].status==10){
                 this.sumList.push(this.list[i])
-                this.total++
               }
+              this.count++
             }
             // 加载状态结束
             this.loading = false;
             // 数据全部加载完成
-            if (this.sumList.length >= this.total) {
+            if (this.count >= this.total) {
               this.finished = true;
             }
           }, 500)
@@ -101,11 +102,33 @@
                console.log(response.data.status)
                console.log(response.data.data.list)*/
               _vue.list=response.data.data.list
+              _vue.total=response.data.data.total
             })
             .catch(function (error) {
               console.log(error)
             })
         },
+        onCancel:function (orderNo) {
+          var _vue=this
+          this.service.get("/order/cancel.do",{
+            params:{
+              orderNo:orderNo
+            }
+          })
+            .then(function (response) {
+              /* console.log(response)
+               console.log(response.status)
+               console.log(response.data.status)
+               console.log(response.data.data.list)*/
+              if(response.data.status==0){
+                Toast('取消订单成功！')
+                _vue.reload()
+              }
+            })
+            .catch(function (error) {
+              console.log(error)
+            })
+        }
       }
     }
 </script>

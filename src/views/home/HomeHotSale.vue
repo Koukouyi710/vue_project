@@ -11,8 +11,20 @@
             />
           </van-divider>
         </div>
+
+        <van-list
+          v-model="loading"
+          :finished="finished"
+          finished-text="没有更多了"
+          :error.sync="error"
+          error-text="请求失败，点击重新加载"
+          @load="onLoad"
+        >
         <!--商品卡-->
-        <div v-for="(item,index) of isHotList" :key="index">
+          <van-cell
+            v-for="(item,index) of isHotList"
+            :key="index"
+          >
           <router-link :to="{name:'ProductItem',params:{productNo:item.id}}">
           <van-card
             tag="热卖"
@@ -23,22 +35,8 @@
             :origin-price="item.price+300"
           />
           </router-link>
-        </div>
-
-        <!--<van-swipe :autoplay="3000" indicator-color="white">
-          <van-swipe-item v-for="index in totalPage">
-          </van-swipe-item>
-        </van-swipe>-->
-
-        <!--分页-->
-        <van-pagination
-        v-model="currentPage"
-        :total-items="count"
-        :items-per-page="size"
-        @change="getHot(currentPage,size)"
-        mode="simple"
-      >
-      </van-pagination>
+          </van-cell>
+        </van-list>
       </div>
 
     </div>
@@ -54,16 +52,40 @@
           return {
             time: 30 * 60 * 60 * 1000,
             count:0,
-            currentPage: 1,
+            currentPage: 0,
             isHotList:[],
+            list: [],
+            loading: false,
+            error:false,
+            finished: false,
+            total:0,     //记录总记录数
             totalPage:0,
             size:5
           };
         },
       mounted(){
-        this.getHot(1,this.size)
+        this.getHot(this.currentPage,this.size)
       },
       methods:{
+        onLoad() {
+          // 异步更新数据
+          setTimeout(() => {
+            for (let i = 0; i < this.list.length; i++) {
+              this.isHotList.push(this.list[i])
+            }
+            // 加载状态结束
+            this.loading = false;
+            // 数据全部加载完成
+            if (this.isHotList.length >= this.count) {
+              this.finished = true;
+            }
+          }, 500)
+            .catch(() => {
+              this.error = true;
+            })
+          this.currentPage++
+          this.getHot(this.currentPage,this.size)
+        },
         getHot:function (pageNum,pageSize) {
           var _vue=this
           this.service.get("/product/detail.do",{
@@ -76,26 +98,26 @@
             }
           })
             .then(function (response) {
-              console.log(response)
+             /* console.log(response)
               console.log(response.status)
               console.log(response.data.status)
-              console.log(response.data.data.list)
-              _vue.isHotList=response.data.data.list
+              console.log(response.data.data.list)*/
               _vue.count=response.data.data.total
               _vue.totalPage=response.data.data.pages
+              _vue.list=response.data.data.list
             })
             .catch(function (error) {
               console.log(error)
             })
         },
-        change(){
+        /*change(){
           if (this.currentPage>=this.totalPage) {
             this.currentPage=1;
           }
           if (this.currentPage<this.totalPage){
             this.currentPage++
           }
-        }
+        }*/
       }
     }
 </script>
